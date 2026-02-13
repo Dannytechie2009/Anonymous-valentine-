@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Send a Note</title>
+    <title>Anonymous  Valentine</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
     <style>
         .neon-border { box-shadow: 0 0 15px rgba(236, 72, 153, 0.4), inset 0 0 15px rgba(236, 72, 153, 0.2); }
@@ -14,85 +15,83 @@
 <body class="bg-slate-950 text-slate-100 font-['Montserrat'] min-h-screen flex items-center justify-center p-6">
 
     <div class="max-w-md w-full bg-slate-900/50 backdrop-blur-md p-8 rounded-3xl border-2 border-pink-500 neon-border">
-        <h1 class="text-3xl font-bold text-pink-500 neon-text text-center mb-2 italic">Send your letter</h1>
-        <p class="text-center text-pink-300/70 text-sm mb-8">Drop an anonymous letter into the box...</p>
+        <h1 class="text-3xl font-bold text-pink-500 neon-text text-center mb-2 italic">Anonymous</h1>
+        <p class="text-center text-pink-300/70 text-sm mb-8 italic uppercase tracking-widest">Secret Valentine Box</p>
 
         <form id="loveForm" class="space-y-6">
             <div>
-                <label class="block text-xs uppercase tracking-widest text-pink-400 mb-2">To Someone Special</label>
-                <input type="text" id="recipient" placeholder="Enter Name..." required 
+                <label class="block text-xs uppercase tracking-widest text-pink-400 mb-2">To Who?</label>
+                <input type="text" id="recipient" placeholder="Name" required 
                     class="w-full bg-slate-800/50 border border-pink-500/30 rounded-xl px-4 py-3 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 transition-all">
             </div>
 
             <div>
-                <label class="block text-xs uppercase tracking-widest text-pink-400 mb-2">Your Message</label>
+                <label class="block text-xs uppercase tracking-widest text-pink-400 mb-2">Your Letter</label>
                 <textarea id="message" rows="4" placeholder="Write your heart out..." required
-                    class="w-full bg-slate-800/50 border border-pink-500/30 rounded-xl px-4 py-3 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 transition-all font-['Caveat'] text-xl"></textarea>
+                    class="w-full bg-slate-800/50 border border-pink-500/30 rounded-xl px-4 py-3 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 transition-all font-['Caveat'] text-2xl"></textarea>
             </div>
 
             <div>
-                <label class="block text-xs uppercase tracking-widest text-pink-400 mb-2">From</label>
-                <input type="text" id="signature" placeholder="e.g. Your Secret Admirer" required
+                <label class="block text-xs uppercase tracking-widest text-pink-400 mb-2">Sign-off</label>
+                <input type="text" id="signature" placeholder="e.g. Your Crush" required
                     class="w-full bg-slate-800/50 border border-pink-500/30 rounded-xl px-4 py-3 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 transition-all">
             </div>
 
             <button type="submit" id="submitBtn" class="w-full bg-pink-600 hover:bg-pink-500 text-white font-bold py-4 rounded-xl shadow-[0_0_20px_rgba(219,39,119,0.5)] transition-all active:scale-95 uppercase tracking-widest">
-                Send Anonymously
+                Send Note
             </button>
         </form>
 
-        <div id="successMsg" class="hidden text-center py-10 animate-bounce">
-            <span class="text-5xl">💌</span>
-            <h2 class="text-2xl font-bold text-pink-400 mt-4">Letter Sent!</h2>
-            <p class="text-slate-400 mt-2">Listen out, the MC might read yours!</p>
+        <div id="successMsg" class="hidden text-center py-10">
+            <div class="flex justify-center mb-4 text-pink-500 animate-pulse">
+                <i data-lucide="heart" class="w-16 h-16 fill-current"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-pink-400 mt-4 uppercase tracking-widest">Letter Sent!</h2>
+            <p class="text-slate-400 mt-2">The MC has it now. Stay tuned!</p>
         </div>
     </div>
 
     <script type="module">
-        // <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDnSEi9Zy6TwwJerHCiiMKy9NQc6usqUm0",
-    authDomain: "anonymous-valentines-40657.firebaseapp.com",
-    projectId: "anonymous-valentines-40657",
-    storageBucket: "anonymous-valentines-40657.firebasestorage.app",
-    messagingSenderId: "1045570145493",
-    appId: "1:1045570145493:web:5987a075344fb6a768665c",
-    measurementId: "G-Z8WEP1ZNFC"
-  };
+        const firebaseConfig = {
+            apiKey: "AIzaSyDnSEi9Zy6TwwJerHCiiMKy9NQc6usqUm0",
+            authDomain: "anonymous-valentines-40657.firebaseapp.com",
+            projectId: "anonymous-valentines-40657",
+            storageBucket: "anonymous-valentines-40657.firebasestorage.app",
+            messagingSenderId: "1045570145493",
+            appId: "1:1045570145493:web:5987a075344fb6a768665c"
+        };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        lucide.createIcons();
 
-  const loveForm = document.getElementById('loveForm');
+        document.getElementById('loveForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerText = "SENDING...";
 
-  loveForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btn = document.getElementById('submitBtn');
-    btn.disabled = true;
-    btn.innerText = "SENDING...";
+            try {
+                await addDoc(collection(db, "letters"), {
+                    to: document.getElementById('recipient').value,
+                    body: document.getElementById('message').value,
+                    from: document.getElementById('signature').value,
+                    status: 'unread',
+                    timestamp: serverTimestamp()
+                });
 
-    try {
-      await addDoc(collection(db, "letters"), {
-        to: document.getElementById('recipient').value,
-        body: document.getElementById('message').value,
-        from: document.getElementById('signature').value,
-        status: 'pending',
-        timestamp: serverTimestamp()
-      });
-
-      document.getElementById('loveForm').classList.add('hidden');
-      document.getElementById('successMsg').classList.remove('hidden');
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Something went wrong. Check your Firestore Rules!");
-      btn.disabled = false;
-    }
-  });
-</script>
-
-    
+                document.getElementById('loveForm').classList.add('hidden');
+                document.getElementById('successMsg').classList.remove('hidden');
+                lucide.createIcons();
+            } catch (error) {
+                alert("Error. Ensure Firestore Rules are set to public!");
+                btn.disabled = false;
+                btn.innerText = "Send Note";
+            }
+        });
+    </script>
 </body>
 </html>
