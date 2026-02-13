@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC Control | Live Feed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Caveat:wght@500&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-950 text-white p-4 md:p-10">
+
+    <header class="flex justify-between items-center mb-10 border-b border-pink-500/30 pb-6">
+        <div>
+            <h1 class="text-4xl font-bold text-pink-500 uppercase tracking-tighter shadow-pink-500">Live Love Feed</h1>
+            <p class="text-slate-400">Total Notes Received: <span id="count" class="text-pink-400 font-bold">0</span></p>
+        </div>
+        <div class="bg-pink-500/10 border border-pink-500 text-pink-500 px-4 py-2 rounded-full animate-pulse">
+            ● LIVE
+        </div>
+    </header>
+
+    <div id="feed" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="text-slate-500 italic">Waiting for letters...</div>
+    </div>
+    <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDnSEi9Zy6TwwJerHCiiMKy9NQc6usqUm0",
+    authDomain: "anonymous-valentines-40657.firebaseapp.com",
+    projectId: "anonymous-valentines-40657",
+    storageBucket: "anonymous-valentines-40657.firebasestorage.app",
+    messagingSenderId: "1045570145493",
+    appId: "1:1045570145493:web:5987a075344fb6a768665c"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const q = query(collection(db, "letters"), orderBy("timestamp", "desc"));
+
+  onSnapshot(q, (snapshot) => {
+    const feed = document.getElementById('feed');
+    feed.innerHTML = ""; 
+    
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const id = docSnap.id;
+      const card = document.createElement('div');
+      
+      // Neon styling based on status
+      const isRead = data.status === 'read';
+      card.className = `p-6 rounded-2xl border-2 transition-all duration-500 ${isRead ? 'opacity-30 border-slate-700' : 'border-pink-500 shadow-[0_0_20px_rgba(236,72,153,0.4)] bg-slate-900'}`;
+      
+      card.innerHTML = `
+        <h2 class="text-pink-400 text-sm tracking-widest uppercase">To: ${data.to}</h2>
+        <p class="font-['Caveat'] text-3xl my-4 text-white">"${data.body}"</p>
+        <div class="flex justify-between items-center mt-4">
+          <span class="text-slate-500 text-sm">- ${data.from}</span>
+          <div class="flex gap-2">
+            <button onclick="window.markRead('${id}')" class="hover:scale-110 transition">✅</button>
+            <button onclick="window.deleteNote('${id}')" class="hover:scale-110 transition">🗑️</button>
+          </div>
+        </div>
+      `;
+      feed.appendChild(card);
+    });
+  });
+
+  // Attach functions to window so the HTML buttons can find them
+  window.markRead = (id) => updateDoc(doc(db, "letters", id), { status: 'read' });
+  window.deleteNote = (id) => confirm("Delete this letter?") && deleteDoc(doc(db, "letters", id));
+</script>
+
+
+    <script type="module">
+        // Firebase onSnapshot listener logic goes here
+    </script>
+</body>
+</html>
